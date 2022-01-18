@@ -6,19 +6,19 @@ import CustomButton from '../custom-button/custom-button.component';
 
 import { signUpStart } from '../../redux/user/user.actions';
 
-import './sign-up.styles.scss';
+import { SignUpContainer, SignUpTitle } from './sign-up.styles';
 
 const SignUp = ({ signUpStart }) => {
   const [userCredentials, setUserCredentials] = useState({
     displayName: '',
     email: '',
     password: '',
-    confirmPassword: '',
+    confirmPassword: ''
   });
 
   const { displayName, email, password, confirmPassword } = userCredentials;
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
 
     if (password !== confirmPassword) {
@@ -29,58 +29,60 @@ const SignUp = ({ signUpStart }) => {
     signUpStart({ displayName, email, password });
   };
 
-  const handleChange = (event) => {
-    const { value, name } = event.target;
+  const handleChange = event => {
+    const { name, value } = event.target;
 
     setUserCredentials({ ...userCredentials, [name]: value });
   };
 
   return (
-    <div className='sign-up'>
-      <h2>I do not have an account</h2>
+    <SignUpContainer>
+      <SignUpTitle>I do not have a account</SignUpTitle>
       <span>Sign up with your email and password</span>
-
       <form className='sign-up-form' onSubmit={handleSubmit}>
         <FormInput
-          name='displayName'
           type='text'
-          handleChange={handleChange}
+          name='displayName'
           value={displayName}
+          onChange={handleChange}
           label='Display Name'
           required
         />
         <FormInput
-          name='email'
           type='email'
-          handleChange={handleChange}
+          name='email'
           value={email}
+          onChange={handleChange}
           label='Email'
           required
         />
         <FormInput
-          name='password'
           type='password'
-          handleChange={handleChange}
+          name='password'
           value={password}
+          onChange={handleChange}
           label='Password'
           required
         />
         <FormInput
-          name='confirmPassword'
           type='password'
-          handleChange={handleChange}
+          name='confirmPassword'
           value={confirmPassword}
+          onChange={handleChange}
           label='Confirm Password'
           required
         />
         <CustomButton type='submit'>SIGN UP</CustomButton>
       </form>
-    </div>
+    </SignUpContainer>
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  signUpStart: (userCredentials) => dispatch(signUpStart(userCredentials)),
+const mapDispatchToProps = dispatch => ({
+  signUpStart: userCredentials => dispatch(signUpStart(userCredentials))
 });
 
-export default connect(null, mapDispatchToProps)(SignUp);
+export default connect(
+  null,
+  mapDispatchToProps
+)(SignUp);
